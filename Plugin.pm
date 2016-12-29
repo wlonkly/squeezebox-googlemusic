@@ -29,7 +29,6 @@ use Plugins::GoogleMusic::Library;
 use Plugins::GoogleMusic::AllAccess;
 use Plugins::GoogleMusic::Playlists;
 use Plugins::GoogleMusic::Radio;
-use Plugins::GoogleMusic::ListenNow;
 use Plugins::GoogleMusic::Recent;
 use Plugins::GoogleMusic::TrackMenu;
 use Plugins::GoogleMusic::AlbumMenu;
@@ -84,7 +83,6 @@ sub initPlugin {
 	Plugins::GoogleMusic::AllAccess::init($cache);
 	Plugins::GoogleMusic::Image::init();
 	Plugins::GoogleMusic::Radio::init();
-	Plugins::GoogleMusic::ListenNow::init();
 	Plugins::GoogleMusic::Recent::init($cache);
 
 	# Try to login. If SSL verification fails, login() raises an
@@ -250,7 +248,7 @@ sub all_access {
 	my ($client, $callback, $args) = @_;
 	my @menu = (
 		{ name => cstring($client, 'PLUGIN_GOOGLEMUSIC_IFL_RADIO'), type => 'audio', url => "googlemusicradio:station:IFL" },
-		{ name => cstring($client, 'PLUGIN_GOOGLEMUSIC_LISTEN_NOW'), type => 'link', url => \&Plugins::GoogleMusic::ListenNow::menu },
+		{ name => cstring($client, 'PLUGIN_GOOGLEMUSIC_LISTEN_NOW'), type => 'link', url => \&Plugins::GoogleMusic::Radio::listenNowFeed },
 		{ name => cstring($client, 'PLUGIN_GOOGLEMUSIC_MY_RADIO_STATIONS'), type => 'link', url => \&Plugins::GoogleMusic::Radio::menu },
 		{ name => cstring($client, 'PLUGIN_GOOGLEMUSIC_RADIO_GENRES'), type => 'link', url => \&Plugins::GoogleMusic::Radio::genresFeed },
 		{ name => cstring($client, 'SEARCH'), type => 'search', url => \&search_all_access },

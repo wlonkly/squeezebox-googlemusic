@@ -172,6 +172,40 @@ sub genresFeed {
 
 }
 
+sub listenNowFeed {
+	my ($client, $callback, $args, $id) = @_;
+
+	my $situations;
+	my @menu;
+
+	$situations = Plugins::GoogleMusic::AllAccess::getListenNowSituations();
+
+	# Build the Menu 
+	for my $situation (@{$situations}) {
+		my $image = '/html/images/radio.png';
+		if (exists $situation->{imageUrl}) {
+			$image = $situation->{imageUrl};
+			$image = Plugins::GoogleMusic::Image->uri($image);
+		}
+
+		push @menu, {
+			name => $situation->{title},
+			play => "googlemusiclistennow:situation:$situation->{id}",
+			image => $image,
+		};
+	}
+
+	# List of stations may be possibly empty
+	if (!scalar @menu) {
+		push @menu, {
+			name => cstring($client, 'EMPTY'),
+			type => 'text',
+		}
+	}
+
+	return $callback->(\@menu);
+}
+
 # Start Google Music Radio feed
 #
 # Does not support album and track IDs from My Library
