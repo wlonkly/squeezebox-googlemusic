@@ -596,6 +596,31 @@ sub deleteStation {
 	return $id;
 }
 
+# Get all Listen Now situations
+sub getListenNowSituations {
+	
+	return [] unless $prefs->get('all_access_enabled');
+	
+	my $situations;
+	my $uri = 'googlemusic:listennow';
+
+	if ($situations = $cache->get($uri)) {
+		return $situations;
+	}
+
+	eval {
+		$situations = $googleapi->get_listen_now_situations();
+	};
+	if ($@) {
+		$log->error("Not able to get Listen Now situations: $@");
+		return [];
+	}
+
+	$cache->set($uri, $situations, $CACHE_TIME_SHORT);
+
+	return $situations;
+}
+
 # Get a specific genre (from the cache)
 sub getGenre {
 	my $uri = shift;

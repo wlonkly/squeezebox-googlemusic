@@ -304,3 +304,6 @@ PLUGIN_GOOGLEMUSIC_DONT_DISLIKE
 	DE	Mag ich wieder
 	EN	Don't dislike it
 	DA	Fjern ‘synes ikke om’
+
+PLUGIN_GOOGLEMUSIC_LISTEN_NOW
+	EN	Listen Now
